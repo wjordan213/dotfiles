@@ -1,0 +1,6 @@
+\.*
+\[Vundle\]*
+jgit/*
+fonts/*
+images/*
+tags
