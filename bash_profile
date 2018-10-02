@@ -46,6 +46,8 @@ alias gpl="git pull"
 alias gkb="git checkout -b"
 alias gl="git log"
 alias gsh="git show"
+alias grc="git rebase --continue"
+alias gdl="git diff --color=always | less -r"
 
 alias pl="pipenv run lint"
 alias pb="pipenv run blacken"

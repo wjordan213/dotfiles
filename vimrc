@@ -19,8 +19,6 @@ Plugin 'w0rp/ale'
 
 Plugin 'tweekmonster/django-plus.vim'
 
-" Plugin 'rking/ag.vim'
-
 Plugin 'christoomey/vim-tmux-navigator'
 
 Plugin 'jgdavey/tslime.vim'
@@ -35,8 +33,6 @@ Plugin 'christoomey/vim-system-copy'
 
 Plugin 'gaogao1030/vim-skim'
 
-" Plugin 'easymotion/vim-easymotion'
-
 Plugin 'xolox/vim-misc'
 
 Plugin 'bling/vim-airline'
@@ -44,8 +40,6 @@ Plugin 'bling/vim-airline'
 Plugin 'gmarik/Vundle.vim'
 
 Plugin 'tpope/vim-fugitive.git'
-
-" Plugin 'ctrlpvim/ctrlp.vim'
 
 Plugin 'tpope/vim-surround'
 
@@ -85,7 +79,7 @@ Plugin 'kana/vim-textobj-user'
 
 Plugin 'wjordan213/vim-textobj-python'
 
-Plugin 'airblade/vim-gitgutter'
+Plugin 'mhinz/vim-signify'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -167,8 +161,11 @@ nnoremap <leader>[s :so Session.vim<CR>
 nnoremap <leader>. :Tags<cr>
 nnoremap <leader>, :BTags<cr>
 nnoremap <leader>/ :Buffers<cr>
+nnoremap <silent> <Leader>bn :bnext<CR>
+nnoremap <silent> <Leader>bp :bprevious<CR>
+
 nnoremap <C-p> :Files<cr>
-nnoremap <silent> <Leader>b :TagbarToggle<CR>
+nnoremap <silent> <Leader>bt :TagbarToggle<CR>
 
 " Escape alternatives
 imap jj <Esc><C-S>
@@ -285,9 +282,8 @@ nmap <Leader>wh :FixWhitespace<CR>
 
 " autocmd BufWritePost * exe ":UpdateTags"
 
-autocmd BufWritePost * GitGutter
-
 nmap <Leader>ct :call Send_to_Tmux("ctags -R\n")<CR>
+nmap <Leader>pl :call Send_to_Tmux("pipenv run lint\n")<CR>
 
 au BufNewFile,BufRead *.html set filetype=htmldjango
 
