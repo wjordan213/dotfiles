@@ -28,7 +28,7 @@ __git_complete gp _git_push
 set editing-mode vi
 set keymap vi-command
 
-alias gr='git commit --amend'
+alias gca='git commit --amend'
 alias gs='git status'
 alias gd='git diff'
 alias gcm='git commit -m'
@@ -44,10 +44,13 @@ alias gsl="git stash list"
 alias gfr="git fetch origin master;git rebase origin/master"
 alias gpl="git pull"
 alias gkb="git checkout -b"
-alias gl="git log"
+alias gl="git log --color=always | less -r"
 alias gsh="git show"
 alias grc="git rebase --continue"
 alias gdl="git diff --color=always | less -r"
+alias grb="git rebase"
+alias gr="git reset"
+alias grs="git reset --soft"
 
 alias pl="pipenv run lint"
 alias pb="pipenv run blacken"
