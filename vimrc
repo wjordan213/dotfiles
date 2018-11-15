@@ -111,7 +111,7 @@ let g:jsx_ext_required = 0
 map <C-x> :!pbcopy<CR>
 
 let g:airline#extensions#tabline#enabled = 1
-
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:html_indent_inctags = "html,body,head,tbody, ul, li, article, aside, section, div, title, body, h1, h2, h3, h4, meta, p"
 
 let javascript_enable_domhtmlcss = 1
@@ -161,11 +161,10 @@ nnoremap <leader>[s :so Session.vim<CR>
 nnoremap <leader>. :Tags<cr>
 nnoremap <leader>, :BTags<cr>
 nnoremap <leader>/ :Buffers<cr>
-nnoremap <silent> <Leader>bn :bnext<CR>
-nnoremap <silent> <Leader>bp :bprevious<CR>
 
 nnoremap <C-p> :Files<cr>
 nnoremap <silent> <Leader>bt :TagbarToggle<CR>
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 " Escape alternatives
 imap jj <Esc><C-S>
@@ -310,3 +309,8 @@ let test#python#pytest#options = '-s -v'
 " jedi renaming
 let g:jedi#rename_command = "<leader>rn"
 source ~/python.vim
+nnoremap <silent> <Leader>bp :buffer<space>
+nnoremap <leader>bb :bprevious<CR>
+nnoremap <silent> <Leader>bn :bnext<CR>
+
+let g:signify_realtime = 1
