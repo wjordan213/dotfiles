@@ -81,6 +81,7 @@ Plugin 'wjordan213/vim-textobj-python'
 
 Plugin 'mhinz/vim-signify'
 
+Plugin 'embear/vim-localvimrc'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on
@@ -314,3 +315,4 @@ nnoremap <leader>bb :bprevious<CR>
 nnoremap <silent> <Leader>bn :bnext<CR>
 
 let g:signify_realtime = 1
+let g:localvimrc_whitelist=['/Users/harris.jordan/workspace/blink/pot/.*', '/Users/harris.jordan/workspace/blink/rx-os-backend']
