@@ -29,8 +29,6 @@ Plugin 'bronson/vim-trailing-whitespace'
 
 Plugin 'elzr/vim-json'
 
-Plugin 'christoomey/vim-system-copy'
-
 Plugin 'gaogao1030/vim-skim'
 
 Plugin 'xolox/vim-misc'
