@@ -291,8 +291,6 @@ au BufNewFile,BufRead *.html set filetype=htmldjango
 let g:easytags_async=1
 set tags=./tags;,tags;
 
-let g:ale_python_pylint_executable='pipenv'
-
 let g:ale_linters = {'python': ['pylint']}
 " let g:ale_set_loclist = 0
 " let g:ale_set_quickfix = 1
