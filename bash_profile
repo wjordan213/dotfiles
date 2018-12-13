@@ -31,6 +31,7 @@ set keymap vi-command
 alias gca='git commit --amend'
 alias gs='git status'
 alias gd='git diff'
+alias gdc='git diff --cached'
 alias gcm='git commit -m'
 alias gck='git checkout'
 alias gm='git merge'
