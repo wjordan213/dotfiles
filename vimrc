@@ -316,3 +316,10 @@ let g:signify_realtime = 1
 let g:localvimrc_whitelist=['/Users/harris.jordan/workspace/blink/pot/.*', '/Users/harris.jordan/workspace/blink/rx-os-backend']
 
 nnoremap <leader>A :Autoflake<CR>
+"
+" Ag customization
+command! -bang -nargs=* Ag
+            \ call fzf#vim#ag(<q-args>,
+            \                  '--ignore .git --hidden',
+            \                 fzf#vim#with_preview('right:50%'),
+            \                  <bang>0)
