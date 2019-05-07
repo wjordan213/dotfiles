@@ -81,6 +81,11 @@ alias runcelery="pipenv run celery -E -A bhs worker -l debug"
 alias ctvp="ctags --exclude=*.js -R -f ~/workspace/blink/pot/.git/tags ~/.local/share/virtualenvs/pot-Viq7dMz1/"
 alias dn="dnote"
 alias emacs="/usr/local/Cellar/emacs/26.1_1/Emacs.app/Contents/MacOS/Emacs -nw"
+alias gtpot="cd ~/workspace/blink/pot"
+alias gtbrx="cd ~/workspace/blink/brxp"
+alias gtback="cd ~/workspace/blink/backend"
+alias gtcfg="cd ~/dotfiles"
+alias dup="docker-compose up -d"
 
 export EDITOR='vim'
 
@@ -154,9 +159,20 @@ aws-creds() {
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh" # This loads nvm
 export PIP_EXTRA_INDEX_URL="https://harris.jordan:AP6LGtiZPd9ey81hB7mQSU7xBGZccUDHVqLQes@blink.jfrog.io/blink/api/pypi/pypi/simple"
-
 # Setting PATH for Python 3.6
 # The original version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+# PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
 export PATH
 eval "$(pyenv init -)"
+
+# export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+export PIP_EXTRA_INDEX_URL=https://harris.jordan@blinkhealth.com:AKCp5budGcLttH52XT1A4aFZjE2XUF2kJEKf3DLpLTCdCmKCHYWa6f8A85jNW4yzBU277ACtm@blink.jfrog.io/blink/api/pypi/pypi/simple
+
+export PATH="$HOME/.poetry/bin:$PATH"
+
+
+# Added by `blink setup profile` 2019-04-18T15:22:32
+# See https://github.com/blinkhealth/blink-cli for more info
+source "${HOME}/.blink-profile"

@@ -43,8 +43,6 @@ Plugin 'tpope/vim-surround'
 
 Plugin 'tpope/vim-repeat'
 
-Plugin 'mattn/emmet-vim'
-
 Plugin 'Raimondi/delimitMate'
 
 Plugin 'pangloss/vim-javascript'
@@ -82,11 +80,23 @@ Plugin 'mhinz/vim-signify'
 Plugin 'embear/vim-localvimrc'
 
 Plugin 'tell-k/vim-autoflake'
+
+Plugin 'mattn/emmet-vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
-filetype plugin indent on
 
-syntax on
+
+" VIM PLUG plugins
+
+call plug#begin()
+
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+
+call plug#end()
 
 autocmd StdinReadPre * let s:std_in=1
 map <C-n> :NERDTreeToggle<CR>
@@ -104,9 +114,10 @@ let g:tslime_always_current_session = 1
 let g:tslime_always_current_window = 1
 
 let g:solarized_termcolors=256
-" set background=light
+set background=light
 syntax enable
-colorscheme molokai
+colorscheme solarized
+" colorscheme molokai
 
 let g:jsx_ext_required = 0
 map <C-x> :!pbcopy<CR>
@@ -240,8 +251,6 @@ au FocusLost,WinLeave * :silent! w
 
 map <Leader>a :Ag<CR>
 
-" BUFFER CONFIGS
-nmap <Leader>f :buf<Space>
 
 " CONFIGS FOR VIM-TEST
 " these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
@@ -274,7 +283,7 @@ set lazyredraw
 
 set hlsearch
 
-:nnoremap <Leader>o :nohlsearch<CR>
+nnoremap <Leader>o :nohlsearch<CR>
 nmap <Leader>cw :let @*=expand("%")<cr>
 nnoremap ,i i_<Esc>r
 nnoremap ,a a_<Esc>r
@@ -291,11 +300,29 @@ au BufNewFile,BufRead *.html set filetype=htmldjango
 let g:easytags_async=1
 set tags=./tags;,tags;
 
-let g:ale_linters = {'python': ['pylint']}
+let g:ale_linters = {
+            \ 'python': ['pylint'],
+            \ 'javascript': ['eslint', 'flow']
+            \}
+let g:ale_fixers = {
+            \ 'javascript': ['prettier'],
+            \ 'css': ['prettier'],
+            \ 'python': ['black'],
+            \}
 " let g:ale_set_loclist = 0
 " let g:ale_set_quickfix = 1
 let g:ale_completion_enabled = 1
 let g:ale_python_pylint_use_global = 1
+let g:ale_python_pylint_options = '--init-hook "'
+            \ . 'import os; '
+            \ . 'import sys; '
+            \ . 'PY_V = sys.version[0]; '
+            \ . '_f = os.path.join('
+            \ .     '\"$VIRTUAL_ENV\", '
+            \ .     '\"bin/activate_this.py\"'
+            \ . '); '
+            \ . 'read_cmd = open(_f).read() if PY_V == \"3\" else open(_f); '
+            \ . 'exec(read_cmd, dict(__file__=_f))"'
 
 let NERDTreeShowHidden=1
 let g:NERDTreeIgnore=['.git', '.pytest_cache']
@@ -313,7 +340,8 @@ nnoremap <leader>bb :bprevious<CR>
 nnoremap <silent> <Leader>bn :bnext<CR>
 
 let g:signify_realtime = 1
-let g:localvimrc_whitelist=['/Users/harris.jordan/workspace/blink/pot/.*', '/Users/harris.jordan/workspace/blink/rx-os-backend']
+let g:localvimrc_whitelist=['/Users/harris.jordan/workspace/blink/pot/.*', '/Users/harris.jordan/workspace/blink/rx-os-backend', '/Users/harris.jordan/workspace/blink/mobile-web/.lvimrc']
+let g:localvimrc_sandbox = 0
 
 nnoremap <leader>A :Autoflake<CR>
 "
@@ -323,3 +351,20 @@ command! -bang -nargs=* Ag
             \                  '--ignore .git --hidden',
             \                 fzf#vim#with_preview('right:50%'),
             \                  <bang>0)
+
+" nnoremap : ;
+" nnoremap ; :
+
+" vnoremap : ;
+" vnoremap ; :
+autocmd FileType python setlocal foldenable foldmethod=syntax
+
+" vim-flow configs
+let g:flow#enable = 0
+let g:flow#autoclose = 1
+nnoremap <leader>fm :FlowMake<CR>
+nnoremap <leader>ft :FlowType<CR>
+nnoremap <leader>fj :FlowJumpToDef<CR>
+
+let g:javascript_plugin_flow = 1
+autocmd Filetype javascript setlocal ts=2 sw=2 sts=0 expandtab

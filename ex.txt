@@ -1,0 +1,124 @@
+
+autocmd StdinReadPre * let s:std_in=1
+map <C-n> :NERDTreeToggle<CR>
+
+set noswapfile
+set laststatus=2
+
+let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
+
+set clipboard=unnamed
+
+nmap ,n :NERDTreeFind<CR>
+
+let g:tslime_always_current_session = 1
+let g:tslime_always_current_window = 1
+
+let g:solarized_termcolors=256
+" set background=light
+syntax enable
+colorscheme molokai
+
+let g:jsx_ext_required = 0
+map <C-x> :!pbcopy<CR>
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:html_indent_inctags = "html,body,head,tbody, ul, li, article, aside, section, div, title, body, h1, h2, h3, h4, meta, p"
+
+let javascript_enable_domhtmlcss = 1
+
+" Make CtrlP use ag for listing the files. Way faster and no useless files.
+let g:ctrlp_user_command = 'ag %s -l --hidden --nocolor -g ""'
+let g:ctrlp_use_caching = 0
+
+set number
+let mapleader = "\<Space>"
+
+nmap 0 ^
+nmap <leader>w <C-w>
+nmap <leader>w<Space>r <C-w><C-r>
+nmap <leader>r <C-r>
+nmap <leader>z :w<Enter><C-z>
+" nmap <leader>t <C-t>
+
+nmap ,p O<CR>import ipdb<CR>ipdb.set_trace()jk<Esc>:w<CR>
+
+nmap [e [c]f
+
+map k gk
+nmap j gj
+
+imap <C-e> <C-h>
+
+" insert comments in insert mode with vim-commentary
+imap gcc jpq<Esc>gccfjciw
+
+"  Ctrl-S to save
+noremap <silent> <C-S>          :update<CR>
+vnoremap <silent> <C-S>         <C-C>:update<CR>
+inoremap <silent> <C-S>         <C-O>:update<CR>
+
+" python black
+nmap <leader>m :Black<CR>:w<CR>
+" autocmd BufWritePre *.py execute ':Black'
+let g:black_linelength=120
+" nmap <leader>m :call Send_to_Tmux("make blacken\n")<CR>
+
+" Obsess
+nnoremap <leader>[o :Obsess<CR>
+nnoremap <leader>[s :so Session.vim<CR>
+
+" fzf
+nnoremap <leader>. :Tags<cr>
+nnoremap <leader>, :BTags<cr>
+nnoremap <leader>/ :Buffers<cr>
+
+nnoremap <C-p> :Files<cr>
+nnoremap <silent> <Leader>bt :TagbarToggle<CR>
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+" Escape alternatives
+imap jj <Esc><C-S>
+imap jk <Esc>o
+imap jl <Esc>O
+
+
+"    From
+"    https://coderwall.com/p/if9mda/automatically-set-paste-mode-in-vim-when-pasting-in-insert-mode
+"    Allows for better pasting
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+function! XTermPasteBegin()
+	set pastetoggle=<Esc>[201~
+	set paste
+	return ""
+endfunction
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+map <leader>\ :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+nmap <leader>[] :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
+" set statusline+=%#warningmsg#
+" set statusline+=%*
+
+nmap <leader>q :q<Enter>
+nmap <leader>e :w<CR>:e#<Enter>
+nmap <leader>S :so $MYVIMRC<Enter>
+nmap <Leader>P :PluginInstall<Enter>
+
+nmap <leader>vp ggVGp
+
+nmap <leader>y :%y+<Enter>
+nmap <leader>= mcgg=G<Enter>'c
+nmap c_ ct_
+nmap d_ dt_
+nmap c) ct)
+nmap c( ct(
+nmap d) dt)
+nmap d( dt(

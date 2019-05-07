@@ -4,3 +4,4 @@ jgit/*
 fonts/*
 images/*
 tags
+*/node_modules/*
