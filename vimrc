@@ -325,7 +325,7 @@ let g:ale_python_pylint_options = '--init-hook "'
             \ . 'exec(read_cmd, dict(__file__=_f))"'
 
 let NERDTreeShowHidden=1
-let g:NERDTreeIgnore=['.git', '.pytest_cache']
+let g:NERDTreeIgnore=['.git', '.pytest_cache', 'node_modules']
 
 " CONFIG FOR VIM-TEST
 let test#strategy="tslime"
