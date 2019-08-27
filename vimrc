@@ -11,8 +11,6 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 " Plugin 'vim-syntastic/syntastic'
 
-Plugin 'ambv/black'
-
 Plugin 'junegunn/fzf.vim'
 
 Plugin 'w0rp/ale'
@@ -82,6 +80,8 @@ Plugin 'embear/vim-localvimrc'
 Plugin 'tell-k/vim-autoflake'
 
 Plugin 'mattn/emmet-vim'
+
+Plugin 'plytophogy/vim-virtualenv'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -160,7 +160,7 @@ vnoremap <silent> <C-S>         <C-C>:update<CR>
 inoremap <silent> <C-S>         <C-O>:update<CR>
 
 " python black
-nmap <leader>m :Black<CR>:w<CR>
+nmap <leader>m :ALEFix<CR>
 " autocmd BufWritePre *.py execute ':Black'
 let g:black_linelength=120
 " nmap <leader>m :call Send_to_Tmux("make blacken\n")<CR>
@@ -252,12 +252,6 @@ au FocusLost,WinLeave * :silent! w
 map <Leader>a :Ag<CR>
 
 
-" CONFIGS FOR VIM-TEST
-" these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
-nmap <Leader>s :w<CR>:TestNearest<CR>
-nmap <Leader>t :w<CR>:TestFile<CR>
-nmap <Leader><Leader>a :w<CR>:TestSuite<CR>
-nmap <Leader><Leader>l :w<CR>:TestLast<CR>
 nmap <Leader>ptb :call Send_to_Tmux("ptb\n")<CR>
 nmap <Leader>ps :call Send_to_Tmux("psh\n")<CR>
 nmap <Leader>px :call Send_to_Tmux("exit\n")<CR>
@@ -340,7 +334,7 @@ nnoremap <leader>bb :bprevious<CR>
 nnoremap <silent> <Leader>bn :bnext<CR>
 
 let g:signify_realtime = 1
-let g:localvimrc_whitelist=['/Users/harris.jordan/workspace/blink/pot/.*', '/Users/harris.jordan/workspace/blink/rx-os-backend', '/Users/harris.jordan/workspace/blink/mobile-web/.lvimrc']
+let g:localvimrc_whitelist=['/Users/harris.jordan/workspace/blink/pot/.*', '/Users/harris.jordan/workspace/blink/rx-os-backend', '/Users/harris.jordan/workspace/blink/mobile-web/.lvimrc', '/Users/harris.jordan/workspace/blink/order-service/.*']
 let g:localvimrc_sandbox = 0
 
 nnoremap <leader>A :Autoflake<CR>
@@ -368,3 +362,10 @@ nnoremap <leader>fj :FlowJumpToDef<CR>
 
 let g:javascript_plugin_flow = 1
 autocmd Filetype javascript setlocal ts=2 sw=2 sts=0 expandtab
+
+" CONFIGS FOR VIM-TEST
+" these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
+nnoremap <Leader>c :w<CR>:TestNearest<CR>
+nmap <Leader>t :w<CR>:TestFile<CR>
+nmap <Leader><Leader>a :w<CR>:TestSuite<CR>
+nmap <Leader><Leader>l :w<CR>:TestLast<CR>
