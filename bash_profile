@@ -167,7 +167,7 @@ eval "$(pyenv init -)"
 # export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-export PIP_EXTRA_INDEX_URL=https://harris.jordan@blinkhealth.com:AKCp5budGcLttH52XT1A4aFZjE2XUF2kJEKf3DLpLTCdCmKCHYWa6f8A85jNW4yzBU277ACtm@blink.jfrog.io/blink/api/pypi/pypi/simple
+# export PIP_EXTRA_INDEX_URL="https://harris.jordan@blinkhealth.com:AKCp5budGcLttH52XT1A4aFZjE2XUF2kJEKf3DLpLTCdCmKCHYWa6f8A85jNW4yzBU277ACtm@blink.jfrog.io/blink/api/pypi/pypi/simple"
 
 export PATH="$HOME/.poetry/bin:$PATH"
 

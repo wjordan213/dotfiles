@@ -301,22 +301,23 @@ let g:ale_linters = {
 let g:ale_fixers = {
             \ 'javascript': ['prettier'],
             \ 'css': ['prettier'],
-            \ 'python': ['black'],
+            \ 'python': ['isort', 'black'],
             \}
 " let g:ale_set_loclist = 0
-" let g:ale_set_quickfix = 1
+let g:ale_set_quickfix = 1
 let g:ale_completion_enabled = 1
 let g:ale_python_pylint_use_global = 1
-let g:ale_python_pylint_options = '--init-hook "'
-            \ . 'import os; '
-            \ . 'import sys; '
-            \ . 'PY_V = sys.version[0]; '
-            \ . '_f = os.path.join('
-            \ .     '\"$VIRTUAL_ENV\", '
-            \ .     '\"bin/activate_this.py\"'
-            \ . '); '
-            \ . 'read_cmd = open(_f).read() if PY_V == \"3\" else open(_f); '
-            \ . 'exec(read_cmd, dict(__file__=_f))"'
+let g:ale_python_pylint_options = '--load-plugins pylint_django'
+" let g:ale_python_pylint_options = '--init-hook "'
+"             \ . 'import os; '
+"             \ . 'import sys; '
+"             \ . 'PY_V = sys.version[0]; '
+"             \ . '_f = os.path.join('
+"             \ .     '\"$VIRTUAL_ENV\", '
+"             \ .     '\"bin/activate_this.py\"'
+"             \ . '); '
+"             \ . 'read_cmd = open(_f).read() if PY_V == \"3\" else open(_f); '
+"             \ . 'exec(read_cmd, dict(__file__=_f))"'
 
 let NERDTreeShowHidden=1
 let g:NERDTreeIgnore=['.git', '.pytest_cache', 'node_modules']
@@ -334,7 +335,7 @@ nnoremap <leader>bb :bprevious<CR>
 nnoremap <silent> <Leader>bn :bnext<CR>
 
 let g:signify_realtime = 1
-let g:localvimrc_whitelist=['/Users/harris.jordan/workspace/blink/pot/.*', '/Users/harris.jordan/workspace/blink/rx-os-backend', '/Users/harris.jordan/workspace/blink/mobile-web/.lvimrc', '/Users/harris.jordan/workspace/blink/order-service/.*']
+let g:localvimrc_whitelist=['/Users/harris.jordan/workspace/blink/pot/.*', '/Users/harris.jordan/workspace/blink/rx-os-backend', '/Users/harris.jordan/workspace/blink/mobile-web/.lvimrc', '/Users/harris.jordan/workspace/blink/order-service/.*', '/Users/harris.jordan/workspace/blink/outreach-service/.*']
 let g:localvimrc_sandbox = 0
 
 nnoremap <leader>A :Autoflake<CR>
