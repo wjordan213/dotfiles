@@ -11,8 +11,6 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 " Plugin 'vim-syntastic/syntastic'
 
-Plugin 'junegunn/fzf.vim'
-
 Plugin 'w0rp/ale'
 
 Plugin 'tweekmonster/django-plus.vim'
@@ -90,6 +88,9 @@ call vundle#end()            " required
 " VIM PLUG plugins
 
 call plug#begin()
+
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 
 " post install (yarn install | npm install) then load plugin only for editing supported files
 Plug 'prettier/vim-prettier', {
@@ -329,7 +330,6 @@ let test#python#pytest#options = '-s -v'
 
 " jedi renaming
 let g:jedi#rename_command = "<leader>rn"
-source ~/python.vim
 nnoremap <silent> <Leader>bp :buffer<space>
 nnoremap <leader>bb :bprevious<CR>
 nnoremap <silent> <Leader>bn :bnext<CR>

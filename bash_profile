@@ -4,6 +4,7 @@ export PATH=/usr/local/bin:$PATH:$HOME/Applications/Firefox.app/Contents/MacOS
 # export FIREFOX_BINARY_PATH=/Applications/Firefox.app/Contents/MacOS/firefox-bin
 
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+export PATH="/usr/local/opt/ruby/bin:$PATH"
 
 export PATH=/usr/local/bin/pip:$PATH
 
@@ -62,7 +63,7 @@ alias da="dnote add"
 alias dv="dnote view"
 
 alias ct='ctags -R --exclude=node_modules'
-alias vim="mvim -v"
+alias vim="/usr/local/opt/vim/bin/vim"
 alias pvim="pipenv run mvim -v"
 
 alias psh="pipenv shell"
@@ -77,12 +78,8 @@ alias pt="pipenv run pytest"
 alias ppt="pipenv run python manage.py test"
 alias pps="pipenv run python manage.py shell"
 alias runcelery="pipenv run celery -E -A bhs worker -l debug"
-alias ctvp="ctags --exclude=*.js -R -f ~/workspace/blink/pot/.git/tags ~/.local/share/virtualenvs/pot-Viq7dMz1/"
 alias dn="dnote"
 alias emacs="/usr/local/Cellar/emacs/26.1_1/Emacs.app/Contents/MacOS/Emacs -nw"
-alias gtpot="cd ~/workspace/blink/pot"
-alias gtbrx="cd ~/workspace/blink/brxp"
-alias gtback="cd ~/workspace/blink/backend"
 alias gtcfg="cd ~/dotfiles"
 alias dup="docker-compose up -d"
 
@@ -90,88 +87,16 @@ export EDITOR='vim'
 
 set -o vi
 
-_value_for() {
-  local key
-  key=$1
-  awk -F "=" "/$key/ {print \$2}" | tr -d ' '
-}
-
-assume_role () {
-  local role mfa args token prompt
-  role=$1
-  mfa=$2
-  args=(
-    --role-arn "${role}"
-    --role-session-name aws-creds-session
-    --duration-seconds "${AWS_SESSION_LENGTH:-900}"
-  )
-
-  if [[ -n "$mfa" ]]; then
-    prompt="Enter your MFA token for ${role}: "
-    if [[ $SHELL == "zsh" ]]; then
-      read -r "?${prompt}" token
-    else
-      read -rp "${prompt}" token
-    fi
-
-    args+=(
-      --serial-number "${mfa}"
-      --token-code "${token}"
-    )
-  fi
-
-  data=$(aws sts assume-role "${args[@]}")
-  if [[ -z "${data}" ]]; then
-    >&2 echo "Could not assume the role!"
-    exit 2
-  fi
-
-  export AWS_ACCESS_KEY_ID=$(echo "$data" | jq -r ".Credentials.AccessKeyId")
-  export AWS_SECRET_ACCESS_KEY=$(echo "$data" | jq -r ".Credentials.SecretAccessKey")
-  export AWS_SESSION_TOKEN=$(echo "$data" | jq -r ".Credentials.SessionToken")
-}
-
-aws-creds() {
-  local label profile region
-  label="aws.ifyll-${AWS_ENV:-dev}.aws_access_key"
-  (
-    export AWS_ACCESS_KEY_ID=$(security find-generic-password -l "$label" | grep acct | awk -F'"' '$0=$4');
-    export AWS_SECRET_ACCESS_KEY=$(security find-generic-password -l "$label" -w);
-
-    if [[ -n "${AWS_PROFILE}" ]]; then
-      profile=$(sed -n -e "/profile $AWS_PROFILE/,/^\s*$/ p" ~/.aws/config)
-
-      if [[ -z "${profile}" ]]; then
-        >&2 echo "Could not find the specified profile in ~/.aws/config"
-        exit 2
-      fi
-
-      region=$(echo "$profile" | _value_for region)
-
-      assume_role "$(echo "$profile" | _value_for role_arn)" "$(echo "$profile" | _value_for mfa_serial)"
-      [[ -n "$region" ]] && export AWS_DEFAULT_REGION="$region"
-    fi
-
-    "$@";
-  )
-}
 export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh" # This loads nvm
-export PIP_EXTRA_INDEX_URL="https://harris.jordan:AP6LGtiZPd9ey81hB7mQSU7xBGZccUDHVqLQes@blink.jfrog.io/blink/api/pypi/pypi/simple"
-# Setting PATH for Python 3.6
-# The original version is saved in .bash_profile.pysave
-# PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+source ~/.nvm/nvm.sh
 export PATH
 eval "$(pyenv init -)"
+export PATH="/usr/local/opt/postgresql@9.5/bin:$PATH"
 
 # export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-# export PIP_EXTRA_INDEX_URL="https://harris.jordan@blinkhealth.com:AKCp5budGcLttH52XT1A4aFZjE2XUF2kJEKf3DLpLTCdCmKCHYWa6f8A85jNW4yzBU277ACtm@blink.jfrog.io/blink/api/pypi/pypi/simple"
 
 export PATH="$HOME/.poetry/bin:$PATH"
-
-
-# Added by `blink setup profile` 2019-04-18T15:22:32
-# See https://github.com/blinkhealth/blink-cli for more info
-source "${HOME}/.blink-profile"
+export COMPOSE_HTTP_TIMEOUT=120
+source ~/.bashrc
