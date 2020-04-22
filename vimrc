@@ -30,6 +30,7 @@ Plugin 'gaogao1030/vim-skim'
 Plugin 'xolox/vim-misc'
 
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 Plugin 'gmarik/Vundle.vim'
 
@@ -81,6 +82,12 @@ Plugin 'mattn/emmet-vim'
 
 Plugin 'plytophogy/vim-virtualenv'
 
+Plugin 'leafgarland/typescript-vim'
+
+Plugin 'ianks/vim-tsx'
+
+Plugin 'Quramy/tsuquyomi'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -91,7 +98,7 @@ call plug#begin()
 
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-
+Plug 'Quramy/tsuquyomi'
 " post install (yarn install | npm install) then load plugin only for editing supported files
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
@@ -117,14 +124,35 @@ let g:tslime_always_current_window = 1
 let g:solarized_termcolors=256
 set background=light
 syntax enable
-colorscheme solarized
-" colorscheme molokai
+" colorscheme solarized
+colorscheme molokai
 
 let g:jsx_ext_required = 0
 map <C-x> :!pbcopy<CR>
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline_section_y = ''
+let g:webdevicons_enable_airline_statusline_fileformat_symbols = 0
+
+
+let g:airline#extensions#virtualenv#enabled = 0
+let g:airline#extensions#branch#enabled = 0
+let g:airline#extensions#term#enabled = 0
+let g:airline#extensions#fugitiveline#enabled = 0
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#hunks#enabled = 0
+let g:airline#extensions#keymap#enabled = 0
+let g:airline#extensions#netrw#enabled = 0
+let g:airline#extensions#netrw#enabled = 0
+let g:airline#extensions#wordcount#enabled = 0
+let g:airline#extensions#poetv#enabled = 0
+let g:airline_section_x = ''
+let g:airline_section_a = ''
+let g:airline_theme="base16_chalk"
+
+" au VimEnter * let g:airline_section_x = airline#section#create_right(['tagbar']) | :AirlineRefresh
+
 let g:html_indent_inctags = "html,body,head,tbody, ul, li, article, aside, section, div, title, body, h1, h2, h3, h4, meta, p"
 
 let javascript_enable_domhtmlcss = 1
@@ -144,6 +172,7 @@ nmap <leader>z :w<Enter><C-z>
 " nmap <leader>t <C-t>
 
 nmap ,p O<CR>import ipdb<CR>ipdb.set_trace()jk<Esc>:w<CR>
+nmap ,rp O<CR>import remote_pdb<CR>remote_pdb.set_trace('0.0.0.0',<>)jk<Esc>:w<CR>
 
 nmap [e [c]f
 
@@ -286,7 +315,7 @@ nmap <Leader>wh :FixWhitespace<CR>
 
 " autocmd BufWritePost * exe ":UpdateTags"
 
-nmap <Leader>ct :call Send_to_Tmux("ctags -R\n")<CR>
+nmap <Leader>ct :call Send_to_Tmux("ctags -R --exclude=node_modules --python-kinds=-i\n")<CR>
 nmap <Leader>pl :call Send_to_Tmux("pipenv run lint\n")<CR>
 
 au BufNewFile,BufRead *.html set filetype=htmldjango
@@ -296,19 +325,40 @@ let g:easytags_async=1
 set tags=./tags;,tags;
 
 let g:ale_linters = {
-            \ 'python': ['pylint'],
-            \ 'javascript': ['eslint', 'flow']
+            \ 'python': ['pylint', 'mypy'],
+            \ 'javascript': ['eslint', 'stylelint'],
+            \ 'vim': ['vint'],
+            \ 'scss': ['scsslint'],
+            \ 'sql': ['sqlint'],
+            \ 'typescript': ['tsserver', 'stylelint', 'tslint'],
             \}
+
 let g:ale_fixers = {
-            \ 'javascript': ['prettier'],
+            \ 'javascript': ['eslint', 'prettier'],
+            \ 'typescript': ['prettier'],
             \ 'css': ['prettier'],
-            \ 'python': ['isort', 'black'],
+            \ 'python': ['yapf'],
+            \ 'scss': ['scsslint'],
             \}
 " let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
-let g:ale_completion_enabled = 1
+let g:ale_open_list = 1
+let g:ale_keep_list_window_open = 0
+let g:ale_cache_executable_check_failures = 1
+
+let g:ale_completion_enabled = 0
 let g:ale_python_pylint_use_global = 1
-let g:ale_python_pylint_options = '--load-plugins pylint_django'
+let g:ale_python_auto_pipenv = 1
+let g:ale_python_mypy_auto_pipenv = 1
+let g:ale_python_pylint_auto_pipenv = 1
+let g:ale_python_yapf_use_global = 0
+
+
+nnoremap <Leader>Afr :ALEFindReferences<CR>
+nnoremap <Leader>Ad :ALEDetail<CR>
+nnoremap <Leader>Ag :ALEGoToDefinition<CR>
+
+
 " let g:ale_python_pylint_options = '--init-hook "'
 "             \ . 'import os; '
 "             \ . 'import sys; '
@@ -328,6 +378,7 @@ let test#strategy="tslime"
 let test#python#runner = 'pytest'
 let test#python#pytest#options = '-s -v'
 
+let test#javascript#jest#options = "--silent"
 " jedi renaming
 let g:jedi#rename_command = "<leader>rn"
 nnoremap <silent> <Leader>bp :buffer<space>
@@ -338,7 +389,7 @@ let g:signify_realtime = 1
 let g:localvimrc_whitelist=['/Users/harris.jordan/workspace/blink/pot/.*', '/Users/harris.jordan/workspace/blink/rx-os-backend', '/Users/harris.jordan/workspace/blink/mobile-web/.lvimrc', '/Users/harris.jordan/workspace/blink/order-service/.*', '/Users/harris.jordan/workspace/blink/outreach-service/.*']
 let g:localvimrc_sandbox = 0
 
-nnoremap <leader>A :Autoflake<CR>
+nnoremap <leader>Aaf :Autoflake<CR>
 "
 " Ag customization
 command! -bang -nargs=* Ag
@@ -370,3 +421,9 @@ nnoremap <Leader>c :w<CR>:TestNearest<CR>
 nmap <Leader>t :w<CR>:TestFile<CR>
 nmap <Leader><Leader>a :w<CR>:TestSuite<CR>
 nmap <Leader><Leader>l :w<CR>:TestLast<CR>
+set backspace=indent,eol,start
+
+" vim-ale hacks
+let g:ale_python_mypy_use_daemon = 1
+let g:ale_python_mypy_autostart_daemon = 1
+let g:ale_python_mypy_daemon_options = '--follow-imports=error'
