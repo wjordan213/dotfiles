@@ -88,6 +88,8 @@ Plugin 'ianks/vim-tsx'
 
 Plugin 'Quramy/tsuquyomi'
 
+Plugin 'mgedmin/python-imports.vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -337,7 +339,10 @@ let g:ale_fixers = {
             \ 'javascript': ['eslint', 'prettier'],
             \ 'typescript': ['prettier'],
             \ 'css': ['prettier'],
-            \ 'python': ['yapf'],
+            \ 'python': [{buffer -> {
+            \   'command': 'python /Users/harris.jordan/workspace/trialspark/spark/python_formatting.py %t',
+            \   'read_temporary_file': 1,
+            \ }}],
             \ 'scss': ['scsslint'],
             \}
 " let g:ale_set_loclist = 0
@@ -357,6 +362,7 @@ let g:ale_python_yapf_use_global = 0
 nnoremap <Leader>Afr :ALEFindReferences<CR>
 nnoremap <Leader>Ad :ALEDetail<CR>
 nnoremap <Leader>Ag :ALEGoToDefinition<CR>
+nnoremap <Leader>An :ALENext<CR>
 
 
 " let g:ale_python_pylint_options = '--init-hook "'
@@ -427,3 +433,5 @@ set backspace=indent,eol,start
 let g:ale_python_mypy_use_daemon = 1
 let g:ale_python_mypy_autostart_daemon = 1
 let g:ale_python_mypy_daemon_options = '--follow-imports=error'
+
+nmap ; V:s/\//\./g<CR>
