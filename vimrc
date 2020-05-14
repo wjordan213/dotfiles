@@ -435,3 +435,6 @@ let g:ale_python_mypy_autostart_daemon = 1
 let g:ale_python_mypy_daemon_options = '--follow-imports=error'
 
 nmap ; V:s/\//\./g<CR>
+
+nmap <leader>IN :ImportName<space>
+nmap <leader>IH :ImportNameHere<space>

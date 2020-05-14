@@ -31,3 +31,4 @@ for file in $files; do
     ln -s $dir/$file ~/.$file
 done
 
+ln -s ~/dotfiles/python-imports.cfg ~/.vim/python-imports.cfg
