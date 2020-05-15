@@ -1,5 +1,6 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
+
 " set the runtime path to include Vundle and initialize
 " set rtp+=~/.vim/bundle/vundle/
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -435,6 +436,4 @@ let g:ale_python_mypy_autostart_daemon = 1
 let g:ale_python_mypy_daemon_options = '--follow-imports=error'
 
 nmap ; V:s/\//\./g<CR>
-
-nmap <leader>IN :ImportName<space>
-nmap <leader>IH :ImportNameHere<space>
+nmap <leader>i :ImportNameHere<space>
