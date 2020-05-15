@@ -206,6 +206,8 @@ nnoremap <leader>[s :so Session.vim<CR>
 nnoremap <leader>. :Tags<cr>
 nnoremap <leader>, :BTags<cr>
 nnoremap <leader>/ :Buffers<cr>
+nnoremap <leader>G :GFiles?<cr>
+nnoremap <leader>B :BD<cr>
 
 nnoremap <C-p> :Files<cr>
 nnoremap <silent> <Leader>bt :TagbarToggle<CR>
@@ -451,5 +453,5 @@ let g:ale_python_mypy_use_daemon = 1
 let g:ale_python_mypy_autostart_daemon = 1
 let g:ale_python_mypy_daemon_options = '--follow-imports=error'
 
-nmap ; V:s/\//\./g<CR>
+nmap ; V:s/\//\./g<CR>V:s/\.py//g<CR>
 nmap <leader>i :ImportNameHere<space>
