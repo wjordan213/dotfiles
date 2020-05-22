@@ -91,6 +91,8 @@ Plugin 'Quramy/tsuquyomi'
 
 Plugin 'mgedmin/python-imports.vim'
 
+Plugin 'tpope/vim-projectionist'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -194,6 +196,8 @@ inoremap <silent> <C-S>         <C-O>:update<CR>
 
 " python black
 nmap <leader>m :ALEFix<CR>
+nmap ]a :ALENext<CR>
+nmap [a :ALEPrevious<CR>
 " autocmd BufWritePre *.py execute ':Black'
 let g:black_linelength=120
 " nmap <leader>m :call Send_to_Tmux("make blacken\n")<CR>
@@ -208,6 +212,7 @@ nnoremap <leader>, :BTags<cr>
 nnoremap <leader>/ :Buffers<cr>
 nnoremap <leader>G :GFiles?<cr>
 nnoremap <leader>B :BD<cr>
+nnoremap <leader>L :Lines<cr>
 
 nnoremap <C-p> :Files<cr>
 nnoremap <silent> <Leader>bt :TagbarToggle<CR>
@@ -223,6 +228,27 @@ endfunction
 function! s:delete_buffers(lines)
   execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
 endfunction
+
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+  echoerr "I was called"
+endfunction
+
+function! s:custom_sink(lines)
+  let filename = string(split(a:lines[0])[1])
+  let parsed_filename = strcharpart(filename, 2, strchars(filename)-4)
+  " echoerr 'bd '.parsed_filename
+  execute 'bd '.parsed_filename
+endfunction
+
+command! BEX call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:custom_sink(lines) },
+  \ 'options': [],
+\ }))
 
 command! BD call fzf#run(fzf#wrap({
   \ 'source': s:list_buffers(),
@@ -286,16 +312,11 @@ nmap <leader>8 :tabmove 8<Enter>
 nmap <leader>9 :tabmove 9<Enter>
 
 
-nmap <Leader>cc :CoffeeCompile vert<Enter>
-
-
 " color configurations
 :hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 :hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 
 hi MatchParen cterm=none ctermbg=green ctermfg=blue
-
-:nnoremap <Leader>cs :set cursorline! cursorcolumn!<CR>
 
 au FocusGained,BufEnter * :silent! !
 au FocusLost,WinLeave * :silent! w
@@ -329,14 +350,14 @@ set lazyredraw
 set hlsearch
 
 nnoremap <Leader>o :nohlsearch<CR>
-nmap <Leader>cw :let @*=expand("%")<cr>
+nmap <Leader>W :let @*=expand("%")<cr>
 nnoremap ,i i_<Esc>r
 nnoremap ,a a_<Esc>r
 nmap <Leader>wh :FixWhitespace<CR>
 
 " autocmd BufWritePost * exe ":UpdateTags"
 
-nmap <Leader>ct :call Send_to_Tmux("ctags -R --exclude=node_modules --python-kinds=-i\n")<CR>
+nmap <Leader>C :call Send_to_Tmux("ctags -R --exclude=node_modules --python-kinds=-i\n")<CR>
 nmap <Leader>pl :call Send_to_Tmux("pipenv run lint\n")<CR>
 
 au BufNewFile,BufRead *.html set filetype=htmldjango
@@ -455,4 +476,7 @@ let g:ale_python_mypy_daemon_options = '--follow-imports=error'
 
 nmap ; V:s/\//\./g<CR>V:s/\.py//g<CR>
 nmap <leader>i :ImportName<space>
+let g:jedi#popup_on_dot = 0
 
+" projectionist
+nmap <leader>A :A<CR>
