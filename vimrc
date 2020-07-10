@@ -133,7 +133,7 @@ syntax enable
 colorscheme molokai
 
 let g:jsx_ext_required = 0
-map <C-x> :!pbcopy<CR>
+" map <C-x> :!pbcopy<CR>
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
@@ -161,10 +161,6 @@ let g:airline_theme="base16_chalk"
 let g:html_indent_inctags = "html,body,head,tbody, ul, li, article, aside, section, div, title, body, h1, h2, h3, h4, meta, p"
 
 let javascript_enable_domhtmlcss = 1
-
-" Make CtrlP use ag for listing the files. Way faster and no useless files.
-let g:ctrlp_user_command = 'ag %s -l --hidden --nocolor -g ""'
-let g:ctrlp_use_caching = 0
 
 set number
 let mapleader = "\<Space>"
@@ -211,7 +207,7 @@ nnoremap <leader>. :Tags<cr>
 nnoremap <leader>, :BTags<cr>
 nnoremap <leader>/ :Buffers<cr>
 nnoremap <leader>G :GFiles?<cr>
-nnoremap <leader>B :BD<cr>
+nnoremap <leader>B :BLines<cr>
 nnoremap <leader>L :Lines<cr>
 
 nnoremap <C-p> :Files<cr>
@@ -277,6 +273,14 @@ endfunction
 set tabstop=4
 set shiftwidth=4
 set expandtab
+
+autocmd FileType javascript setlocal ts=2 sts=2 sw=2
+autocmd FileType typescript setlocal ts=2 sts=2 sw=2
+
+autocmd FileType typescript setlocal completeopt+=menu,preview
+
+nmap <leader>T :TsuImport<CR>
+
 
 map <leader>\ :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 nmap <leader>[] :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
@@ -386,8 +390,11 @@ let g:ale_fixers = {
             \ 'scss': ['scsslint'],
             \}
 " let g:ale_set_loclist = 0
+
+" let g:typescript_indent_disable = 1
+
 let g:ale_set_quickfix = 1
-let g:ale_open_list = 1
+let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
 let g:ale_cache_executable_check_failures = 1
 
@@ -422,7 +429,7 @@ let g:NERDTreeIgnore=['.git', '.pytest_cache', 'node_modules']
 " CONFIG FOR VIM-TEST
 let test#strategy="tslime"
 let test#python#runner = 'pytest'
-let test#python#pytest#options = '-s -v'
+let test#python#pytest#options = '-s -v -p no:flaky'
 
 let test#javascript#jest#options = "--silent"
 " jedi renaming
@@ -479,4 +486,4 @@ nmap <leader>i :ImportName<space>
 let g:jedi#popup_on_dot = 0
 
 " projectionist
-nmap <leader>A :A<CR>
+nmap <leader>E :A<CR>

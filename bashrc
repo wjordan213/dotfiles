@@ -92,7 +92,7 @@ eval "$(pyenv init -)"
 export PATH="/Applications/Postgres.app/Contents/Versions/9.5/bin:$PATH"
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-
+# export FZF_DEFAULT_OPTS='--extended'
 export COMPOSE_HTTP_TIMEOUT=120
 
 function setup_venv_activate() {
