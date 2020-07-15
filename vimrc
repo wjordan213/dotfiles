@@ -47,7 +47,7 @@ Plugin 'pangloss/vim-javascript'
 
 Plugin 'briancollins/vim-jst'
 
-Plugin 'mxw/vim-jsx'
+Plugin 'MaxMEllon/vim-jsx-pretty'
 
 Plugin 'othree/html5.vim'
 
@@ -92,6 +92,8 @@ Plugin 'Quramy/tsuquyomi'
 Plugin 'mgedmin/python-imports.vim'
 
 Plugin 'tpope/vim-projectionist'
+
+Plugin 'jparise/vim-graphql'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -361,7 +363,7 @@ nmap <Leader>wh :FixWhitespace<CR>
 
 " autocmd BufWritePost * exe ":UpdateTags"
 
-nmap <Leader>C :call Send_to_Tmux("ctags -R --exclude=node_modules --python-kinds=-i\n")<CR>
+nmap <Leader>C :call Send_to_Tmux("ctags -R\n")<CR>
 nmap <Leader>pl :call Send_to_Tmux("pipenv run lint\n")<CR>
 
 au BufNewFile,BufRead *.html set filetype=htmldjango
