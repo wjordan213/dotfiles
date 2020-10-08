@@ -95,6 +95,8 @@ Plugin 'tpope/vim-projectionist'
 
 Plugin 'jparise/vim-graphql'
 
+Plugin 'jaxbot/semantic-highlight.vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -485,6 +487,7 @@ let g:ale_python_mypy_daemon_options = '--follow-imports=error'
 
 nmap ; V:s/\//\./g<CR>V:s/\.py//g<CR>
 nmap <leader>i :ImportName<space>
+nmap <leader>Yi yiw:ImportName<space><C-R>*<CR>''
 let g:jedi#popup_on_dot = 0
 
 " projectionist
