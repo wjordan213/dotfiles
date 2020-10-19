@@ -4,6 +4,8 @@ export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH=/usr/local/bin/pip:$PATH
 
 export PATH=/usr/local/bin:$PATH:$HOME/Applications/Firefox.app/Contents/MacOS
+
+export PATH=~/scripts:$PATH
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 export GITAWAREPROMPT=~/.bash/git-aware-prompt
@@ -31,6 +33,7 @@ alias gca='git commit --amend'
 alias gs='git status'
 alias gd='git diff'
 alias gdc='git diff --cached'
+alias gdn='git diff origin/master --name-only'
 alias gcm='git commit -m'
 alias gck='git checkout'
 alias gm='git merge'

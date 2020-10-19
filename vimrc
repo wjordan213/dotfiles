@@ -255,6 +255,13 @@ command! BD call fzf#run(fzf#wrap({
   \ 'sink*': { lines -> s:delete_buffers(lines) },
   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
 \ }))
+
+nnoremap <silent> <Leader>gt :call fzf#run({
+  \ 'source':  'git changed-on-branch',
+\   'sink':    'e',
+\   'options': '--multi --reverse',
+\   'down':    15
+\ })<CR>
 " Escape alternatives
 imap jj <Esc><C-S>
 imap jk <Esc>o
@@ -414,6 +421,8 @@ nnoremap <Leader>Afr :ALEFindReferences<CR>
 nnoremap <Leader>Ad :ALEDetail<CR>
 nnoremap <Leader>Ag :ALEGoToDefinition<CR>
 nnoremap <Leader>An :ALENext<CR>
+nnoremap <Leader>Ar :ALEResetBuffer<CR>
+
 
 
 " let g:ale_python_pylint_options = '--init-hook "'
