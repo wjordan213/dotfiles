@@ -392,7 +392,7 @@ let g:ale_linters = {
 
 let g:ale_fixers = {
             \ 'javascript': ['eslint', 'prettier'],
-            \ 'typescript': ['prettier'],
+            \ 'typescript': ['prettier', 'tslint'],
             \ 'css': ['prettier'],
             \ 'python': [{buffer -> {
             \   'command': 'python /Users/harris.jordan/workspace/trialspark/spark/python_formatting.py %t',
