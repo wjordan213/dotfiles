@@ -422,6 +422,10 @@ nnoremap <Leader>Ad :ALEDetail<CR>
 nnoremap <Leader>Ag :ALEGoToDefinition<CR>
 nnoremap <Leader>An :ALENext<CR>
 nnoremap <Leader>Ar :ALEResetBuffer<CR>
+nnoremap <Leader>AR :ALEReset<CR>
+nnoremap <Leader>ADI :ALEDisable<CR>
+nnoremap <Leader>ADB :ALEDisable<CR>
+nnoremap <Leader>ADE :ALEEnable<CR>
 
 
 
