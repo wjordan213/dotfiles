@@ -97,6 +97,9 @@ Plugin 'jparise/vim-graphql'
 
 Plugin 'jaxbot/semantic-highlight.vim'
 
+Plugin 'saltstack/salt-vim'
+
+Plugin 'Glench/Vim-Jinja2-Syntax'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -446,7 +449,7 @@ let g:NERDTreeIgnore=['.git', '.pytest_cache', 'node_modules']
 " CONFIG FOR VIM-TEST
 let test#strategy="tslime"
 let test#python#runner = 'pytest'
-let test#python#pytest#options = '-s -v -p no:flaky'
+let test#python#pytest#options = '-s -v --timeout=0 -p no:flaky'
 
 let test#javascript#jest#options = "--silent"
 " jedi renaming
@@ -496,7 +499,7 @@ set backspace=indent,eol,start
 " vim-ale hacks
 let g:ale_python_mypy_use_daemon = 1
 let g:ale_python_mypy_autostart_daemon = 1
-let g:ale_python_mypy_daemon_options = '--follow-imports=error'
+let g:ale_python_mypy_daemon_options = '--follow-imports=normal'
 
 nmap ; V:s/\//\./g<CR>V:s/\.py//g<CR>
 nmap <leader>i :ImportName<space>
@@ -505,3 +508,4 @@ let g:jedi#popup_on_dot = 0
 
 " projectionist
 nmap <leader>E :A<CR>
+let g:sls_use_jinja_syntax = 1
