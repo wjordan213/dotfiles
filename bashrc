@@ -6,6 +6,10 @@ export PATH=/usr/local/bin/pip:$PATH
 export PATH=/usr/local/bin:$PATH:$HOME/Applications/Firefox.app/Contents/MacOS
 
 export PATH=~/scripts:$PATH
+
+
+export TF_PRECOMMIT_HOOK_WRITE=true
+
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 export GITAWAREPROMPT=~/.bash/git-aware-prompt
@@ -44,7 +48,7 @@ alias gps='git push --set-upstream origin'
 alias gst="git stash"
 alias gsp="git stash pop"
 alias gsl="git stash list"
-alias gfr="git fetch origin master;git rebase origin/master"
+alias gfr="dmypy kill;git fetch origin master;git rebase origin/master"
 alias gpl="git pull"
 alias gkb="git checkout -b"
 alias gl="git log --color=always | less -r"
@@ -54,6 +58,7 @@ alias gdl="git diff --color=always | less -r"
 alias grb="git rebase"
 alias gr="git reset"
 alias grs="git reset --soft"
+alias gcvm="git commit --no-verify -m "
 
 alias pl="pipenv run lint"
 alias pb="pipenv run blacken"
@@ -117,3 +122,63 @@ function setup_venv_activate() {
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib"
 alias ctags="`brew --prefix`/bin/ctags"
+
+
+export OP_HOME="${OP_HOME:-$HOME/.op}"
+export OP_SESSION_FILE="${OP_HOME}/session-token"
+function op_auth_aptible
+{
+    local -r item_name="$1"
+    local -r username="$(op get item "$item_name" --fields username)"
+    local -r password="$(op get item "$item_name" --fields password)"
+    local -r otp_token="$(op get totp "$item_name")"
+
+    aptible login --email="$username" --password="$password" --otp-token="$otp_token" --lifetime=24h
+}
+
+function op_auth_aws
+{
+    local -r item_name="$1"
+    local -r username="$(op get item "$item_name" --fields username)"
+    local -r mfa_token="$(op get totp "$item_name")"
+
+    cd "$HOME/workspace/trialSpark/spark"
+
+    pipenv run python ./scripts/get_aws_session_credentials.py --user "$username" --mfa "$mfa_token"
+    cd -
+}
+
+function op
+{
+    local -a op_flags=("--cache" "--session" "$(cat "$OP_SESSION_FILE")")
+    local -r command="$1"
+    case "$command" in
+        "auth")
+            local -r target="$2"
+            case "$target" in
+                "aptible")  op_auth_aptible "Aptible" ;;
+                "aws") op_auth_aws "AWS" ;;
+            esac
+            ;;
+        "signin")
+            shift
+            local -r token="$(command op ${op_flags[*]} signin "$@" --raw)"
+            echo "${token:-INVALID_SESSION}" > "$OP_HOME/session-token"
+            ;;
+        *)
+            command op ${op_flags[*]} $@
+            ;;
+    esac
+}
+
+export PYTHONPATH=.
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Avoid duplicates
+HISTCONTROL=ignoredups:erasedups
+# When the shell exits, append to the history file instead of overwriting it
+shopt -s histappend
+
+# After each command, append to the history file and reread it
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"

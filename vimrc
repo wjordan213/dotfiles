@@ -100,6 +100,8 @@ Plugin 'jaxbot/semantic-highlight.vim'
 Plugin 'saltstack/salt-vim'
 
 Plugin 'Glench/Vim-Jinja2-Syntax'
+
+Plugin 'wellle/context.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -188,6 +190,8 @@ map k gk
 nmap j gj
 
 imap <C-e> <C-h>
+
+nmap <leader>gs :Gstatus<CR>
 
 " insert comments in insert mode with vim-commentary
 imap gcc jpq<Esc>gccfjciw
@@ -394,6 +398,7 @@ let g:ale_linters = {
             \}
 
 let g:ale_fixers = {
+            \ 'json': ['fixjson'],
             \ 'javascript': ['eslint', 'prettier'],
             \ 'typescript': ['prettier', 'tslint'],
             \ 'css': ['prettier'],
@@ -449,7 +454,7 @@ let g:NERDTreeIgnore=['.git', '.pytest_cache', 'node_modules']
 " CONFIG FOR VIM-TEST
 let test#strategy="tslime"
 let test#python#runner = 'pytest'
-let test#python#pytest#options = '-s -v --timeout=0 -p no:flaky'
+let test#python#pytest#options = '-s -vv --timeout=0 -p no:flaky'
 
 let test#javascript#jest#options = "--silent"
 " jedi renaming
@@ -509,3 +514,20 @@ let g:jedi#popup_on_dot = 0
 " projectionist
 nmap <leader>E :A<CR>
 let g:sls_use_jinja_syntax = 1
+nmap <leader>OE :ContextEnable<CR>
+nmap <leader>OD :ContextDisable<CR>
+
+augroup jinja_ft
+  au!
+  autocmd BufNewFile,BufRead *.yml.jinja   set syntax=yaml
+augroup END
+
+
+
+
+command! -bang -nargs=* BLines
+    \ call fzf#vim#grep(
+    \   'rg --with-filename --column --line-number --no-heading --smart-case . '.fnameescape(expand('%:p')), 1,
+    \   fzf#vim#with_preview({'options': '--layout reverse --query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
+    " \   fzf#vim#with_preview({'options': '--layout reverse  --with-nth=-1.. --delimiter="/"'}, 'right:50%'))
+au BufNewFile,BufRead Jenkinsfile setf groovy
