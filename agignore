@@ -4,4 +4,5 @@ jgit/*
 fonts/*
 images/*
 tags
+data/history
 */node_modules/*

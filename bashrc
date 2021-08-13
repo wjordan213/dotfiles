@@ -98,6 +98,7 @@ source ~/.nvm/nvm.sh
 export PATH
 eval "$(pyenv init -)"
 export PATH="/Applications/Postgres.app/Contents/Versions/9.5/bin:$PATH"
+echo "HELLOOOOO"
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 # export FZF_DEFAULT_OPTS='--extended'
@@ -182,3 +183,4 @@ shopt -s histappend
 
 # After each command, append to the history file and reread it
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

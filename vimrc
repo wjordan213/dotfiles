@@ -1,118 +1,111 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-" set rtp+=~/.vim/bundle/vundle/
-set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.fzf
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-" Plugin 'vim-syntastic/syntastic'
-
-Plugin 'w0rp/ale'
-
-Plugin 'tweekmonster/django-plus.vim'
-
-Plugin 'christoomey/vim-tmux-navigator'
-
-Plugin 'jgdavey/tslime.vim'
-
-Plugin 'tpope/vim-obsession'
-
-Plugin 'bronson/vim-trailing-whitespace'
-
-Plugin 'elzr/vim-json'
-
-Plugin 'gaogao1030/vim-skim'
-
-Plugin 'xolox/vim-misc'
-
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-
-Plugin 'gmarik/Vundle.vim'
-
-Plugin 'tpope/vim-fugitive.git'
-
-Plugin 'tpope/vim-surround'
-
-Plugin 'tpope/vim-repeat'
-
-Plugin 'Raimondi/delimitMate'
-
-Plugin 'pangloss/vim-javascript'
-
-Plugin 'briancollins/vim-jst'
-
-Plugin 'MaxMEllon/vim-jsx-pretty'
-
-Plugin 'othree/html5.vim'
-
-Plugin 'tpope/vim-commentary'
-
-Plugin 'scrooloose/nerdtree'
-
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-
-Plugin 'flazz/vim-colorschemes'
-
-Plugin 'slim-template/vim-slim'
-
-Plugin 'majutsushi/tagbar'
-
-Plugin 'jiangmiao/auto-pairs'
-
-Plugin 'davidhalter/jedi-vim'
-
-Plugin 'janko-m/vim-test'
-
-Plugin 'kana/vim-textobj-user'
-
-Plugin 'wjordan213/vim-textobj-python'
-
-Plugin 'mhinz/vim-signify'
-
-Plugin 'embear/vim-localvimrc'
-
-Plugin 'tell-k/vim-autoflake'
-
-Plugin 'mattn/emmet-vim'
-
-Plugin 'plytophogy/vim-virtualenv'
-
-Plugin 'leafgarland/typescript-vim'
-
-Plugin 'ianks/vim-tsx'
-
-Plugin 'Quramy/tsuquyomi'
-
-Plugin 'mgedmin/python-imports.vim'
-
-Plugin 'tpope/vim-projectionist'
-
-Plugin 'jparise/vim-graphql'
-
-Plugin 'jaxbot/semantic-highlight.vim'
-
-Plugin 'saltstack/salt-vim'
-
-Plugin 'Glench/Vim-Jinja2-Syntax'
-
-Plugin 'wellle/context.vim'
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-
 
 " VIM PLUG plugins
 
 call plug#begin()
 
-Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
+Plug 'w0rp/ale'
+
+Plug 'tweekmonster/django-plus.vim'
+
+Plug 'christoomey/vim-tmux-navigator'
+
+Plug 'jgdavey/tslime.vim'
+
+Plug 'tpope/vim-obsession'
+
+Plug 'bronson/vim-trailing-whitespace'
+
+Plug 'elzr/vim-json'
+
+Plug 'gaogao1030/vim-skim'
+
+Plug 'xolox/vim-misc'
+
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'gmarik/Vundle.vim'
+
+Plug 'tpope/vim-fugitive.git'
+
+Plug 'tpope/vim-surround'
+
+Plug 'tpope/vim-repeat'
+
+Plug 'Raimondi/delimitMate'
+
+Plug 'pangloss/vim-javascript'
+
+Plug 'briancollins/vim-jst'
+
+Plug 'MaxMEllon/vim-jsx-pretty'
+
+Plug 'othree/html5.vim'
+
+Plug 'tpope/vim-commentary'
+
+Plug 'scrooloose/nerdtree'
+
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+Plug 'flazz/vim-colorschemes'
+
+Plug 'slim-template/vim-slim'
+
+Plug 'majutsushi/tagbar'
+
+Plug 'jiangmiao/auto-pairs'
+
+Plug 'davidhalter/jedi-vim'
+
+Plug 'janko-m/vim-test'
+
+Plug 'kana/vim-textobj-user'
+
+Plug 'wjordan213/vim-textobj-python'
+
+Plug 'mhinz/vim-signify'
+
+Plug 'embear/vim-localvimrc'
+
+Plug 'tell-k/vim-autoflake'
+
+Plug 'mattn/emmet-vim'
+
+Plug 'plytophogy/vim-virtualenv'
+
+Plug 'leafgarland/typescript-vim'
+
+Plug 'ianks/vim-tsx'
+
 Plug 'Quramy/tsuquyomi'
+
+Plug 'mgedmin/python-imports.vim'
+
+Plug 'tpope/vim-projectionist'
+
+Plug 'jparise/vim-graphql'
+
+Plug 'jaxbot/semantic-highlight.vim'
+
+Plug 'saltstack/salt-vim'
+
+Plug 'Glench/Vim-Jinja2-Syntax'
+
+Plug 'wellle/context.vim'
+
+Plug '/usr/local/opt/fzf'
+
+Plug 'junegunn/fzf.vim'
+
+Plug 'tpope/vim-fugitive'
+
+Plug 'Quramy/tsuquyomi'
+
 " post install (yarn install | npm install) then load plugin only for editing supported files
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
@@ -355,7 +348,7 @@ nmap <Leader>px :call Send_to_Tmux("exit\n")<CR>
 nmap <Leader>rts <Plug>SetTmuxVars
 nnoremap <silent> <leader>l :exec &number == 0 ? "set number norelativenumber" : "set relativenumber nonumber"<cr>
 
-let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeGitStatusIndicatorMapCustom = {
     \ "Modified"  : "✹",
     \ "Staged"    : "✚",
     \ "Untracked" : "✭",
@@ -454,7 +447,7 @@ let g:NERDTreeIgnore=['.git', '.pytest_cache', 'node_modules']
 " CONFIG FOR VIM-TEST
 let test#strategy="tslime"
 let test#python#runner = 'pytest'
-let test#python#pytest#options = '-s -vv --timeout=0 -p no:flaky'
+let test#python#pytest#options = '-s -vv --timeout=0 -p no:flaky -p no:warnings'
 
 let test#javascript#jest#options = "--silent"
 " jedi renaming
@@ -464,7 +457,7 @@ nnoremap <leader>bb :bprevious<CR>
 nnoremap <silent> <Leader>bn :bnext<CR>
 
 let g:signify_realtime = 1
-let g:localvimrc_whitelist=['/Users/harris.jordan/workspace/blink/pot/.*', '/Users/harris.jordan/workspace/blink/rx-os-backend', '/Users/harris.jordan/workspace/blink/mobile-web/.lvimrc', '/Users/harris.jordan/workspace/blink/order-service/.*', '/Users/harris.jordan/workspace/blink/outreach-service/.*']
+let g:localvimrc_whitelist=['/Users/harris.jordan/workspace/blink/pot/.*', '/Users/harris.jordan/workspace/blink/rx-os-backend', '/Users/harris.jordan/workspace/blink/mobile-web/.lvimrc', '/Users/harris.jordan/workspace/blink/order-service/.*', '/Users/harris.jordan/workspace/blink/outreach-service/.*', '/Users/harris.jordan/workspace/blink/outreach-service/.*', '/Users/harris.jordan/workspace/trialspark/ciem-supervisor/.*']
 let g:localvimrc_sandbox = 0
 
 nnoremap <leader>Aaf :Autoflake<CR>
