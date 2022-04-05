@@ -129,9 +129,9 @@ let g:tslime_always_current_session = 1
 let g:tslime_always_current_window = 1
 
 let g:solarized_termcolors=256
-set background=light
+" set background=light
 syntax enable
-" colorscheme solarized
+colorscheme solarized
 colorscheme molokai
 
 let g:jsx_ext_required = 0
@@ -457,7 +457,7 @@ nnoremap <leader>bb :bprevious<CR>
 nnoremap <silent> <Leader>bn :bnext<CR>
 
 let g:signify_realtime = 1
-let g:localvimrc_whitelist=['/Users/harris.jordan/workspace/blink/pot/.*', '/Users/harris.jordan/workspace/blink/rx-os-backend', '/Users/harris.jordan/workspace/blink/mobile-web/.lvimrc', '/Users/harris.jordan/workspace/blink/order-service/.*', '/Users/harris.jordan/workspace/blink/outreach-service/.*', '/Users/harris.jordan/workspace/blink/outreach-service/.*', '/Users/harris.jordan/workspace/trialspark/ciem-supervisor/.*']
+let g:localvimrc_whitelist=[ '/Users/harris.jordan/workspace/trialspark/ciem-supervisor/.*', '/Users/harris.jordan/workspace/trialspark/ada_webhook_lambda/.*' ]
 let g:localvimrc_sandbox = 0
 
 nnoremap <leader>Aaf :Autoflake<CR>
@@ -515,6 +515,10 @@ augroup jinja_ft
   autocmd BufNewFile,BufRead *.yml.jinja   set syntax=yaml
 augroup END
 
+augroup jenkins_ft
+  au!
+  autocmd BufNewFile,BufRead *.Jenkinsfile   set syntax=groovy
+
 
 
 
@@ -524,3 +528,6 @@ command! -bang -nargs=* BLines
     \   fzf#vim#with_preview({'options': '--layout reverse --query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
     " \   fzf#vim#with_preview({'options': '--layout reverse  --with-nth=-1.. --delimiter="/"'}, 'right:50%'))
 au BufNewFile,BufRead Jenkinsfile setf groovy
+
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview 
