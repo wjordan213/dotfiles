@@ -106,19 +106,24 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'Quramy/tsuquyomi'
 
+Plug 'hashivim/vim-terraform'
+
+Plug 'petobens/poet-v'
+
 " post install (yarn install | npm install) then load plugin only for editing supported files
 Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+            \ 'do': 'yarn install',
+            \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
 call plug#end()
 
 autocmd StdinReadPre * let s:std_in=1
 map <C-n> :NERDTreeToggle<CR>
 
+au BufRead,BufNewFile *.tf setlocal filetype=terraform
 set noswapfile
 set laststatus=2
-
+let g:terraform_fold_sections=1
 let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
 
 set clipboard=unnamed
@@ -194,6 +199,9 @@ noremap <silent> <C-S>          :update<CR>
 vnoremap <silent> <C-S>         <C-C>:update<CR>
 inoremap <silent> <C-S>         <C-O>:update<CR>
 
+" python dependency management
+let g:poetv_auto_activate = 1
+
 " python black
 nmap <leader>m :ALEFix<CR>
 nmap ]a :ALENext<CR>
@@ -205,6 +213,8 @@ let g:black_linelength=120
 " Obsess
 nnoremap <leader>[o :Obsess<CR>
 nnoremap <leader>[s :so Session.vim<CR>
+
+nnoremap <leader>bc :%bd<CR>
 
 " fzf
 nnoremap <leader>. :Tags<cr>
@@ -219,49 +229,49 @@ nnoremap <silent> <Leader>bt :TagbarToggle<CR>
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 function! s:list_buffers()
-  redir => list
-  silent ls
-  redir END
-  return split(list, "\n")
+    redir => list
+    silent ls
+    redir END
+    return split(list, "\n")
 endfunction
 
 function! s:delete_buffers(lines)
-  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+    execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
 endfunction
 
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
-  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-  copen
-  cc
-  echoerr "I was called"
+    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+    copen
+    cc
+    echoerr "I was called"
 endfunction
 
 function! s:custom_sink(lines)
-  let filename = string(split(a:lines[0])[1])
-  let parsed_filename = strcharpart(filename, 2, strchars(filename)-4)
-  " echoerr 'bd '.parsed_filename
-  execute 'bd '.parsed_filename
+    let filename = string(split(a:lines[0])[1])
+    let parsed_filename = strcharpart(filename, 2, strchars(filename)-4)
+    " echoerr 'bd '.parsed_filename
+    execute 'bd '.parsed_filename
 endfunction
 
 command! BEX call fzf#run(fzf#wrap({
-  \ 'source': s:list_buffers(),
-  \ 'sink*': { lines -> s:custom_sink(lines) },
-  \ 'options': [],
-\ }))
+            \ 'source': s:list_buffers(),
+            \ 'sink*': { lines -> s:custom_sink(lines) },
+            \ 'options': [],
+            \ }))
 
 command! BD call fzf#run(fzf#wrap({
-  \ 'source': s:list_buffers(),
-  \ 'sink*': { lines -> s:delete_buffers(lines) },
-  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
-\ }))
+            \ 'source': s:list_buffers(),
+            \ 'sink*': { lines -> s:delete_buffers(lines) },
+            \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+            \ }))
 
 nnoremap <silent> <Leader>gt :call fzf#run({
-  \ 'source':  'git changed-on-branch',
-\   'sink':    'e',
-\   'options': '--multi --reverse',
-\   'down':    15
-\ })<CR>
+            \ 'source':  'git changed-on-branch',
+            \   'sink':    'e',
+            \   'options': '--multi --reverse',
+            \   'down':    15
+            \ })<CR>
 " Escape alternatives
 imap jj <Esc><C-S>
 imap jk <Esc>o
@@ -277,9 +287,9 @@ let &t_EI .= "\<Esc>[?2004l"
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 function! XTermPasteBegin()
-	set pastetoggle=<Esc>[201~
-	set paste
-	return ""
+    set pastetoggle=<Esc>[201~
+    set paste
+    return ""
 endfunction
 set tabstop=4
 set shiftwidth=4
@@ -287,6 +297,7 @@ set expandtab
 
 autocmd FileType javascript setlocal ts=2 sts=2 sw=2
 autocmd FileType typescript setlocal ts=2 sts=2 sw=2
+autocmd FileType terraform setlocal ts=2 sts=2 sw=2
 
 autocmd FileType typescript setlocal completeopt+=menu,preview
 
@@ -349,16 +360,16 @@ nmap <Leader>rts <Plug>SetTmuxVars
 nnoremap <silent> <leader>l :exec &number == 0 ? "set number norelativenumber" : "set relativenumber nonumber"<cr>
 
 let g:NERDTreeGitStatusIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ "Unknown"   : "?"
-    \ }
+            \ "Modified"  : "✹",
+            \ "Staged"    : "✚",
+            \ "Untracked" : "✭",
+            \ "Renamed"   : "➜",
+            \ "Unmerged"  : "═",
+            \ "Deleted"   : "✖",
+            \ "Dirty"     : "✗",
+            \ "Clean"     : "✔︎",
+            \ "Unknown"   : "?"
+            \ }
 
 set lazyredraw
 
@@ -391,14 +402,14 @@ let g:ale_linters = {
             \}
 
 let g:ale_fixers = {
-            \ 'json': ['fixjson'],
+            \ 'json': ['jq', 'prettier'],
             \ 'javascript': ['eslint', 'prettier'],
             \ 'typescript': ['prettier', 'tslint'],
             \ 'css': ['prettier'],
             \ 'python': [{buffer -> {
-            \   'command': 'python /Users/harris.jordan/workspace/trialspark/spark/python_formatting.py %t',
-            \   'read_temporary_file': 1,
-            \ }}],
+                \   'command': 'python /Users/harris.jordan/workspace/trialspark/spark/python_formatting.py %t',
+                \   'read_temporary_file': 1,
+                \ }}],
             \ 'scss': ['scsslint'],
             \}
 " let g:ale_set_loclist = 0
@@ -442,7 +453,7 @@ nnoremap <Leader>ADE :ALEEnable<CR>
 "             \ . 'exec(read_cmd, dict(__file__=_f))"'
 
 let NERDTreeShowHidden=1
-let g:NERDTreeIgnore=['.git', '.pytest_cache', 'node_modules']
+let g:NERDTreeIgnore=['.git\/', '.pytest_cache', 'node_modules']
 
 " CONFIG FOR VIM-TEST
 let test#strategy="tslime"
@@ -457,7 +468,7 @@ nnoremap <leader>bb :bprevious<CR>
 nnoremap <silent> <Leader>bn :bnext<CR>
 
 let g:signify_realtime = 1
-let g:localvimrc_whitelist=[ '/Users/harris.jordan/workspace/trialspark/ciem-supervisor/.*', '/Users/harris.jordan/workspace/trialspark/ada_webhook_lambda/.*' ]
+let g:localvimrc_whitelist=[ '/Users/harris.jordan/workspace/trialspark/ciem-supervisor/.*', '/Users/harris.jordan/workspace/trialspark/ada_webhook_lambda/.*' , '/Users/harris.jordan/workspace/trialspark/terraform/.*', '/Users/harris.jordan/workspace/trialspark/dynamic-deployer/.*', '/Users/harris.jordan/workspace/trialspark/database_refresher/.*']
 let g:localvimrc_sandbox = 0
 
 nnoremap <leader>Aaf :Autoflake<CR>
@@ -511,22 +522,27 @@ nmap <leader>OE :ContextEnable<CR>
 nmap <leader>OD :ContextDisable<CR>
 
 augroup jinja_ft
-  au!
-  autocmd BufNewFile,BufRead *.yml.jinja   set syntax=yaml
+    au!
+    autocmd BufNewFile,BufRead *.yml.jinja   set syntax=yaml
 augroup END
 
 augroup jenkins_ft
-  au!
-  autocmd BufNewFile,BufRead *.Jenkinsfile   set syntax=groovy
+    au!
+    autocmd BufNewFile,BufRead *.Jenkinsfile   set syntax=groovy
+augroup END
 
+augroup terraform_ft
+    au!
+    autocmd BufNewFile,BufRead *.tf    set ts=2 sw=2 sts=0 expandtab
+augroup END
 
 
 
 command! -bang -nargs=* BLines
-    \ call fzf#vim#grep(
-    \   'rg --with-filename --column --line-number --no-heading --smart-case . '.fnameescape(expand('%:p')), 1,
-    \   fzf#vim#with_preview({'options': '--layout reverse --query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
-    " \   fzf#vim#with_preview({'options': '--layout reverse  --with-nth=-1.. --delimiter="/"'}, 'right:50%'))
+            \ call fzf#vim#grep(
+            \   'rg --with-filename --column --line-number --no-heading --smart-case . '.fnameescape(expand('%:p')), 1,
+            \   fzf#vim#with_preview({'options': '--layout reverse --query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
+" \   fzf#vim#with_preview({'options': '--layout reverse  --with-nth=-1.. --delimiter="/"'}, 'right:50%'))
 au BufNewFile,BufRead Jenkinsfile setf groovy
 
 autocmd BufWinLeave *.* mkview
